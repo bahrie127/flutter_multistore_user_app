@@ -15,4 +15,6 @@ class Images {
   static const String filterImage = 'assets/images/filter.png';
   static const String toolbarBackground =
       'assets/images/toolbar_background.jpg';
+  static const String wishlist = 'assets/images/wishlist.png';
+  static const String delete = 'assets/images/delete.png';
 }
