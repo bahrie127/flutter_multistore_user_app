@@ -36,6 +36,7 @@ class TitleRow extends StatelessWidget {
           (hours * 60 * 60) -
           (minutes * 60);
     }
+    
 
     return Container(
       decoration: isFlash
