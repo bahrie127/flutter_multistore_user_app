@@ -211,6 +211,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     sellerId: 4,
                   );
                   context.read<OrderBloc>().add(OrderEvent.order(requestModel));
+                  context.read<CheckoutBloc>().add(const CheckoutEvent.clear());
                 },
                 child: Container(
                   height: 60,
@@ -236,7 +237,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               );
             },
             loading: () {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             },

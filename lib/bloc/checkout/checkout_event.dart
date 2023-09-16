@@ -7,4 +7,6 @@ class CheckoutEvent with _$CheckoutEvent {
       _AddToCart;
   const factory CheckoutEvent.removeToCart(Product product, int quantity) =
       _RemoveToCart;
+
+      const factory CheckoutEvent.clear() = _Clear;
 }

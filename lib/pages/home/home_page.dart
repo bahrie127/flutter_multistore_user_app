@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fic7_app/bloc/categories/categories_bloc.dart';
 
+import '../../bloc/checkout/checkout_bloc.dart';
 import '../../bloc/products/products_bloc.dart';
 import '../../utils/color_resources.dart';
 import '../../utils/custom_themes.dart';
 import '../../utils/dimensions.dart';
 import '../../utils/images.dart';
 import '../base_widgets/title_row.dart';
+import '../cart/cart_page.dart';
 import 'widgets/banner_widget.dart';
 import 'widgets/category_widget.dart';
 import 'widgets/product_item_widget.dart';
@@ -59,7 +61,10 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 12.0),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const CartPage()));
+                      },
                       icon: Stack(clipBehavior: Clip.none, children: [
                         Image.asset(
                           Images.cartArrowDownImage,
@@ -73,12 +78,35 @@ class _HomePageState extends State<HomePage> {
                           child: CircleAvatar(
                             radius: 7,
                             backgroundColor: ColorResources.red,
-                            child: Text(
-                              '10',
-                              style: titilliumSemiBold.copyWith(
-                                color: ColorResources.white,
-                                fontSize: Dimensions.fontSizeExtraSmall,
-                              ),
+                            child: BlocBuilder<CheckoutBloc, CheckoutState>(
+                              builder: (context, state) {
+                                return state.maybeWhen(
+                                  orElse: () {
+                                    return Text(
+                                      '10',
+                                      style: titilliumSemiBold.copyWith(
+                                        color: ColorResources.white,
+                                        fontSize: Dimensions.fontSizeExtraSmall,
+                                      ),
+                                    );
+                                  },
+                                  loaded: (products) {
+                                    int totalQty = 0;
+                                    products.forEach(
+                                      (element) {
+                                        totalQty += element.quantity;
+                                      },
+                                    );
+                                    return Text(
+                                      '$totalQty',
+                                      style: titilliumSemiBold.copyWith(
+                                        color: ColorResources.white,
+                                        fontSize: Dimensions.fontSizeExtraSmall,
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
                             ),
                           ),
                         ),

@@ -37,15 +37,32 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
           productQuantity,
         ]));
       }
+    });
 
-      // currentState.products.firstWhere(
-      //   (element) => element.product == event.product,
-      // );
+    on<_RemoveToCart>((event, emit) {
+      var currentState = state as _Loaded;
 
-      // emit(_Loaded([
-      //   ...currentState.products,
-      //   productQuantity,
-      // ]));
+      // list of productquatity A
+      // productquantity B
+
+      // kalau B ada di A maka update quantity, bila B tidak ada di A maka add B to A
+      if (currentState.products
+          .where((element) => element.product == event.product)
+          .isNotEmpty) {
+        var products = [...currentState.products];
+        products.removeWhere((element) => element.product == event.product);
+        final newState = products;
+        emit(const _Loading());
+        emit(_Loaded(newState));
+      } else {
+        emit(_Loaded([
+          ...currentState.products,
+        ]));
+      }
+    });
+
+    on<_Clear>((event, emit) {
+      emit(const _Loaded([]));
     });
   }
 }
